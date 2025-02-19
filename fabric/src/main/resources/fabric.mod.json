@@ -8,13 +8,13 @@
     "${author}"
   ],
   "mixins": [
-    "cobblebattlepass.mixins.json"
+    "cobbleparty.mixins.json"
   ],
   "contact": {
   },
   "entrypoints": {
     "main": [
-      "com.kingpixel.fabric.cobblebattlepass.CobbleBattlePassFabric"
+      "com.kingpixel.fabric.cobbleparty.CobblePartyFabric"
     ]
   },
   "license": "${license}",

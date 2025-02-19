@@ -4,6 +4,8 @@ import com.kingpixel.cobbleparty.command.CommandTree;
 import com.kingpixel.cobbleparty.config.Config;
 import com.kingpixel.cobbleparty.config.Lang;
 import com.kingpixel.cobbleparty.database.DataBaseClientFactory;
+import com.kingpixel.cobbleparty.events.CreatePartyEvent;
+import com.kingpixel.cobbleparty.events.DeletePartyEvent;
 import com.kingpixel.cobbleparty.utils.PlaceHolderUtils;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
@@ -18,6 +20,7 @@ public class CobbleParty {
   public static final String MOD_ID = "cobbleparty";
   public static final String MOD_NAME = "cobbleparty";
   public static final String PATH = "/config/cobbleparty/";
+  public static final String PATH_LANG = PATH + "lang/";
   public static final String PATH_DATA = PATH + "data/";
   public static MinecraftServer server;
   public static Config config = new Config();
@@ -28,10 +31,9 @@ public class CobbleParty {
     events();
   }
 
-
   public static void load() {
     files();
-    DataBaseClientFactory.create(config.getDataBaseConfig());
+    DataBaseClientFactory.create(config.getDatabase());
   }
 
   private static void files() {
@@ -52,6 +54,11 @@ public class CobbleParty {
 
     PlayerEvent.PLAYER_QUIT.register(player -> {
 
+    });
+
+    LifecycleEvent.SERVER_STOPPING.register(server -> {
+      CreatePartyEvent.CREATE_PARTY_EVENT.clear();
+      DeletePartyEvent.DELETE_PARTY_EVENT.clear();
     });
 
     LifecycleEvent.SERVER_LEVEL_LOAD.register(level -> server = level.getServer());
