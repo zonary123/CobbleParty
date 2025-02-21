@@ -52,9 +52,7 @@ public class CobbleParty {
 
     });
 
-    PlayerEvent.PLAYER_QUIT.register(player -> {
-
-    });
+    PlayerEvent.PLAYER_QUIT.register(player -> DataBaseClientFactory.INSTANCE.leaveParty(player));
 
     LifecycleEvent.SERVER_STOPPING.register(server -> {
       CreatePartyEvent.CREATE_PARTY_EVENT.clear();

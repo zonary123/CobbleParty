@@ -2,10 +2,7 @@ package com.kingpixel.cobbleparty.command;
 
 import com.kingpixel.cobbleparty.CobbleParty;
 import com.kingpixel.cobbleparty.command.admin.ViewPartysCommand;
-import com.kingpixel.cobbleparty.command.base.CreateCommand;
-import com.kingpixel.cobbleparty.command.base.InviteCommand;
-import com.kingpixel.cobbleparty.command.base.KickCommand;
-import com.kingpixel.cobbleparty.command.base.LeaveCommand;
+import com.kingpixel.cobbleparty.command.base.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.server.command.CommandManager;
@@ -35,6 +32,7 @@ public class CommandTree {
       ViewPartysCommand.register(dispatcher, base);
       InviteCommand.register(dispatcher, base);
       KickCommand.register(dispatcher, base);
+      ChatCommand.register(dispatcher, base);
 
     }
   }

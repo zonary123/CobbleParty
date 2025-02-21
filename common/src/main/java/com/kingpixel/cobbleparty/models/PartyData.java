@@ -4,11 +4,14 @@ import com.kingpixel.cobbleparty.CobbleParty;
 import com.kingpixel.cobbleparty.api.PartyApi;
 import com.kingpixel.cobbleparty.events.DeletePartyEvent;
 import com.kingpixel.cobbleutils.CobbleUtils;
+import com.kingpixel.cobbleutils.api.PermissionApi;
+import com.kingpixel.cobbleutils.util.AdventureTranslator;
 import com.kingpixel.cobbleutils.util.PlayerUtils;
 import com.kingpixel.cobbleutils.util.TypeMessage;
 import com.kingpixel.cobbleutils.util.Utils;
 import lombok.Data;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.MutableText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +136,28 @@ public class PartyData {
       TypeMessage.CHAT
     );
     this.members.remove(member);
+  }
+
+  public void partyMessage(ServerPlayerEntity player, String message) {
+    MutableText text = AdventureTranslator.toNativeComponent(CobbleParty.language.getFormatPartyChat()
+      .replace("%party%", this.name)
+      .replace("%player%", player.getGameProfile().getName())
+      .replace("%message%", message)
+      .replace("%prefixSpy%", ""));
+    MutableText textSpy = AdventureTranslator.toNativeComponent(CobbleParty.language.getFormatPartyChat()
+      .replace("%party%", this.name)
+      .replace("%player%", player.getGameProfile().getName())
+      .replace("%message%", message)
+      .replace("%prefixSpy%", CobbleParty.language.getPrefixSpy()));
+    for (ServerPlayerEntity target : CobbleParty.server.getPlayerManager().getPlayerList()) {
+      boolean send = this.members.stream().anyMatch(userParty -> userParty.getPlayerUUID().equals(target.getUuid()));
+      boolean ss = PermissionApi.hasPermission(target, "cobbleparty.admin.socialspy", 4);
+      if (send) {
+        target.sendMessage(text);
+      } else if (ss) {
+        target.sendMessage(textSpy);
+      }
+    }
   }
 }
 

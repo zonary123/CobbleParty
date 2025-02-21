@@ -5,6 +5,7 @@ import ca.landonjw.gooeylibs2.api.page.GooeyPage;
 import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
 import com.kingpixel.cobbleparty.CobbleParty;
 import com.kingpixel.cobbleparty.api.PartyApi;
+import com.kingpixel.cobbleparty.database.DataBaseClientFactory;
 import com.kingpixel.cobbleutils.Model.ItemModel;
 import com.kingpixel.cobbleutils.Model.PanelsConfig;
 import com.kingpixel.cobbleutils.util.AdventureTranslator;
@@ -51,20 +52,17 @@ public class Menu {
 
     PanelsConfig.applyConfig(template, panels);
 
-    template.set(itemInvites.getSlot(), itemInvites.getButton(action -> {
-      CobbleParty.language.getMenuInvitations().open(action.getPlayer());
-    }));
 
-    template.set(itemMembers.getSlot(), itemMembers.getButton(action -> {
+    if (PartyApi.hasParty(player)) {
+      template.set(itemMembers.getSlot(), itemMembers.getButton(action -> CobbleParty.language.getMenuMembers().open(action.getPlayer())));
 
-    }));
+      template.set(itemLeave.getSlot(), itemLeave.getButton(action -> DataBaseClientFactory.INSTANCE.leaveParty(action.getPlayer())));
+    } else {
+      template.set(itemInvites.getSlot(), itemInvites.getButton(action -> CobbleParty.language.getMenuInvitations().open(action.getPlayer())));
+    }
 
-    template.set(itemLeave.getSlot(), itemLeave.getButton(action -> {
-
-    }));
 
     template.set(close.getSlot(), close.getButton(action -> UIManager.closeUI(player)));
-
 
 
     GooeyPage page = GooeyPage

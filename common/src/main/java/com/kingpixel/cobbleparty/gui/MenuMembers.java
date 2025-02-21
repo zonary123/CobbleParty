@@ -10,15 +10,11 @@ import ca.landonjw.gooeylibs2.api.template.types.ChestTemplate;
 import com.kingpixel.cobbleparty.CobbleParty;
 import com.kingpixel.cobbleparty.api.PartyApi;
 import com.kingpixel.cobbleparty.database.DataBaseClientFactory;
-import com.kingpixel.cobbleparty.models.PartyData;
 import com.kingpixel.cobbleparty.models.UserParty;
 import com.kingpixel.cobbleutils.Model.ItemModel;
 import com.kingpixel.cobbleutils.Model.PanelsConfig;
-import com.kingpixel.cobbleutils.features.shops.Shop;
+import com.kingpixel.cobbleutils.Model.Rectangle;
 import com.kingpixel.cobbleutils.util.AdventureTranslator;
-import com.kingpixel.cobbleutils.util.PlayerUtils;
-import com.kingpixel.cobbleutils.util.TypeMessage;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
@@ -34,7 +30,7 @@ public class MenuMembers {
   private final ItemModel previous;
   private final ItemModel close;
   private final ItemModel next;
-  private final Shop.Rectangle rectangle;
+  private final Rectangle rectangle;
   private final List<PanelsConfig> panels;
 
   public MenuMembers() {
@@ -56,7 +52,7 @@ public class MenuMembers {
     this.panels = List.of(
       new PanelsConfig(new ItemModel("minecraft:gray_stained_glass_pane"), rows)
     );
-    this.rectangle = new Shop.Rectangle(rows);
+    this.rectangle = new Rectangle(rows);
   }
 
   public void open(ServerPlayerEntity player) {
@@ -104,7 +100,7 @@ public class MenuMembers {
 
   }
 
-  private List<Button> getButtons( List<UserParty> members) {
+  private List<Button> getButtons(List<UserParty> members) {
 
     List<Button> buttons = new ArrayList<>();
     for (UserParty member : members) {
@@ -112,7 +108,7 @@ public class MenuMembers {
       List<String> lore = new ArrayList<>(itemMember.getLore());
       lore.replaceAll(s -> replace(member, s));
 
-      buttons.add(itemMember.getButton(1, name, lore,action -> {
+      buttons.add(itemMember.getButton(1, name, lore, action -> {
         DataBaseClientFactory.INSTANCE.kickPlayer(action.getPlayer(), member);
       }));
 

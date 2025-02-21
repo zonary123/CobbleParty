@@ -13,9 +13,9 @@ public class PlaceHolderUtils {
   public static void register() {
     try {
       Placeholders.register(Identifier.of("cobbleparty:party_name"), (source, args) -> {
-        if (!source.hasPlayer()) return PlaceholderResult.invalid();
+        if (!source.hasPlayer()) return PlaceholderResult.value("");
         ServerPlayerEntity player = source.source().getPlayer();
-        if (!PartyApi.hasParty(player)) return PlaceholderResult.invalid();
+        if (!PartyApi.hasParty(player)) return PlaceholderResult.value("");
         return PlaceholderResult.value(PartyApi.getPartyName(player));
       });
     } catch (Exception e) {

@@ -2,7 +2,6 @@ package com.kingpixel.cobbleparty.gui;
 
 import ca.landonjw.gooeylibs2.api.UIManager;
 import ca.landonjw.gooeylibs2.api.button.Button;
-import ca.landonjw.gooeylibs2.api.button.GooeyButton;
 import ca.landonjw.gooeylibs2.api.button.linked.LinkType;
 import ca.landonjw.gooeylibs2.api.button.linked.LinkedPageButton;
 import ca.landonjw.gooeylibs2.api.helpers.PaginationHelper;
@@ -14,7 +13,7 @@ import com.kingpixel.cobbleparty.database.DataBaseClientFactory;
 import com.kingpixel.cobbleparty.models.PartyData;
 import com.kingpixel.cobbleutils.Model.ItemModel;
 import com.kingpixel.cobbleutils.Model.PanelsConfig;
-import com.kingpixel.cobbleutils.features.shops.Shop;
+import com.kingpixel.cobbleutils.Model.Rectangle;
 import com.kingpixel.cobbleutils.util.AdventureTranslator;
 import com.kingpixel.cobbleutils.util.PlayerUtils;
 import com.kingpixel.cobbleutils.util.TypeMessage;
@@ -33,7 +32,7 @@ public class MenuInvitations {
   private final ItemModel previous;
   private final ItemModel close;
   private final ItemModel next;
-  private final Shop.Rectangle rectangle;
+  private final Rectangle rectangle;
   private final List<PanelsConfig> panels;
 
   public MenuInvitations() {
@@ -55,7 +54,7 @@ public class MenuInvitations {
     this.panels = List.of(
       new PanelsConfig(new ItemModel("minecraft:gray_stained_glass_pane"), rows)
     );
-    this.rectangle = new Shop.Rectangle(rows);
+    this.rectangle = new Rectangle(rows);
   }
 
   public void open(ServerPlayerEntity player) {
@@ -112,16 +111,16 @@ public class MenuInvitations {
 
   }
 
-  private List<Button> getButtons( List<PartyData> invitations) {
+  private List<Button> getButtons(List<PartyData> invitations) {
 
     List<Button> buttons = new ArrayList<>();
     for (PartyData invitation : invitations) {
       String name = itemInvites.getDisplayname().replace("%party%", invitation.getName());
       List<String> lore = new ArrayList<>(itemInvites.getLore());
       lore.replaceAll(s -> s.replace("%party%", invitation.getName()));
-      buttons.add(itemInvites.getButton(1, name, lore,action -> {
+      buttons.add(itemInvites.getButton(1, name, lore, action -> {
         ServerPlayerEntity player = action.getPlayer();
-        switch (action.getClickType()){
+        switch (action.getClickType()) {
           case LEFT_CLICK:
             DataBaseClientFactory.INSTANCE.declineInvite(player, invitation);
             break;

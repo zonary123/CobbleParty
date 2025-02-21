@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.kingpixel.cobbleparty.CobbleParty;
 import com.kingpixel.cobbleparty.gui.Menu;
 import com.kingpixel.cobbleparty.gui.MenuInvitations;
+import com.kingpixel.cobbleparty.gui.MenuMembers;
 import com.kingpixel.cobbleutils.CobbleUtils;
 import com.kingpixel.cobbleutils.util.PlayerUtils;
 import com.kingpixel.cobbleutils.util.TypeMessage;
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @Getter
 public class Lang {
   private final String prefix;
+  private final String prefixSpy;
   private final String reload;
   private final String messageHasParty;
   private final String messageNoParty;
@@ -31,13 +33,18 @@ public class Lang {
   private final String messagePlayerKicked;
   private final String messagePlayerKickedBy;
   private final String messageBannedWord;
+  private final String formatPartyChat;
+
   private final Menu menu;
   private final MenuInvitations menuInvitations;
+  private final MenuMembers menuMembers;
+
   /**
    * Constructor to generate a file if one doesn't exist.
    */
   public Lang() {
     prefix = "&8[&6CobbleParty&8] &7";
+    prefixSpy = "&7[&cSpy&7] ";
     reload = "%prefix% &aReloaded!";
     messageHasParty = "%prefix% &cYou already have a party!";
     messageNoParty = "%prefix% &cYou don't have a party!";
@@ -53,8 +60,10 @@ public class Lang {
     messagePlayerKicked = "%prefix% &cPlayer %player% was kicked from the party!";
     messagePlayerKickedBy = "%prefix% &cYou were kicked from the party!";
     messageBannedWord = "%prefix% &cYou can't use that word!";
+    formatPartyChat = "%prefixSpy% &8[&6%party%&8] &7%player%: %message%";
     menu = new Menu();
     menuInvitations = new MenuInvitations();
+    menuMembers = new MenuMembers();
   }
 
   /**
